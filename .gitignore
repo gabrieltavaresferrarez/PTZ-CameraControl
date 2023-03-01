@@ -1,0 +1,4 @@
+#all python caches files
+_pycache_/
+visca_over_ip/_pycache_/
+*.pyc
