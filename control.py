@@ -145,7 +145,8 @@ class Control(ctk.CTk):
 
 
     def teclado_focus_press(self):
-        self.cam.cam.set_focus_mode('one push trigger')
+        if self.cam:
+            self.cam.cam.set_focus_mode('one push trigger')
     def teclado_focus_release(self):
         pass
 
