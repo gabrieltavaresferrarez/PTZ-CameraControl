@@ -101,11 +101,12 @@ class Cenas(CTkFrame):
     def save_cena(self):
         if self.int_selectedCena != None:
             listInt_positions = self.masterFunction_getPosition()
-            self.listDict_cenas[self.int_selectedCena]['x'] = listInt_positions[0]
-            self.listDict_cenas[self.int_selectedCena]['y'] = listInt_positions[1]
-            self.listDict_cenas[self.int_selectedCena]['zoom'] = listInt_positions[2]
-            print(f'{self.listDict_cenas}')
-            self.save_file_cenas()
+            if listInt_positions:
+                self.listDict_cenas[self.int_selectedCena]['x'] = listInt_positions[0]
+                self.listDict_cenas[self.int_selectedCena]['y'] = listInt_positions[1]
+                self.listDict_cenas[self.int_selectedCena]['zoom'] = listInt_positions[2]
+                print(f'{self.listDict_cenas}')
+                self.save_file_cenas()
         pass
 
 
