@@ -39,19 +39,30 @@ class Cenas(CTkFrame):
         self.button_renameCena = CTkButton(self, text='Rename', command=self.rename_cena)
         self.button_renameCena.grid(row=self.num_cenas//2+1, column = 1, pady=(10,5))
 
+        # Default color for select and unselect
+        self.string_defaultBlue = '#3B8ED0'
+        self.string_defaultDarkBlue = '#1F6AA5'
+        self.string_defaultBorder = '#3E454A'
+        self.string_defaultDarkBorder = '#949A9F'
+        self.string_defaultWhite = '#E2FFE2'
 
 
     def select_cena(self, int_cena):
-        string_defaultBlue = '#3B8ED0'
-        string_defaultDarkBlue = '#1F6AA5'
-        for i in range(self.num_cenas):
-            self.listButton_Cenas[i].configure(fg_color = [string_defaultBlue, string_defaultDarkBlue])
-
         if self.int_selectedCena != int_cena: # vê se estou selecionando cena
-            self.listButton_Cenas[int_cena].configure(fg_color = [string_defaultDarkBlue, string_defaultBlue])
+            self.unselect_cena() # limpa ultima seleção para nova seleção
+            self.listButton_Cenas[int_cena].configure(fg_color = [self.string_defaultDarkBlue, self.string_defaultBlue])
+            self.listButton_Cenas[int_cena].configure(border_color = self.string_defaultWhite)
+            self.listButton_Cenas[int_cena].configure(border_width = 2)
+            # print(self.listButton_Cenas[int_cena].cget('border_color'))
             self.int_selectedCena = int_cena
         else: # está deselecionando a cena
-            self.listButton_Cenas[int_cena].configure(fg_color = [string_defaultBlue, string_defaultDarkBlue])
+            self.unselect_cena()
+
+    def unselect_cena(self):
+        for i in range(self.num_cenas):
+            self.listButton_Cenas[i].configure(fg_color = [self.string_defaultBlue, self.string_defaultDarkBlue])
+            self.listButton_Cenas[i].configure(border_color = [self.string_defaultBorder, self.string_defaultDarkBorder])
+            self.listButton_Cenas[i].configure(border_width = 0)
             self.int_selectedCena = None
 
     def load_cena(self, index):
@@ -87,7 +98,6 @@ class Cenas(CTkFrame):
             self.listButton_Cenas[i].grid(row=row, column=column, padx=padx_buttons, pady=pady_buttons, stick=stick_buttons)
 
 
-
     def save_cena(self):
         if self.int_selectedCena != None:
             listInt_positions = self.masterFunction_getPosition()
@@ -103,9 +113,11 @@ class Cenas(CTkFrame):
         if self.int_selectedCena != None:
             dialog = CTkInputDialog()
             string_nomeCena = dialog.get_input()
-            self.listButton_Cenas[self.int_selectedCena].configure(text=string_nomeCena)
-            self.listDict_cenas[self.int_selectedCena]['nome'] = string_nomeCena
-            self.save_file_cenas()
+            if string_nomeCena != '' and string_nomeCena != None: #necessaru to change line 89 in CTkInputDialog definition
+                self.listButton_Cenas[self.int_selectedCena].configure(text=string_nomeCena)
+                self.listDict_cenas[self.int_selectedCena]['nome'] = string_nomeCena
+                self.save_file_cenas()
+            self.unselect_cena()
 
 
 
