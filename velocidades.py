@@ -14,6 +14,7 @@ class Velocidades(CTkFrame):
     def __init__(self, master, title = 'Velocidade', global_index : int = False):
         super().__init__(master)
 
+
         int_padX = 5
         int_padY = 5
         string_stickSlider = 'ns'
@@ -30,7 +31,7 @@ class Velocidades(CTkFrame):
         vel_max = 10.0
         self.label_VelMax = CTkLabel(self, text='Velocidade\nMax', font= font_Labels)
         self.label_VelMax.grid(row=1, column=0, stick=string_stickLabels, padx=int_padX, pady=int_padY)
-        self.slider_VelMax = CTkSlider(self, orientation='vertical', number_of_steps = vel_max-1, from_=1, to=vel_max, command=self.changeVelMax)
+        self.slider_VelMax = CTkSlider(self, orientation='vertical', number_of_steps = vel_max-1, from_=1, to=vel_max, command=self.changeVelMax, height=20)
         self.slider_VelMax.grid(row=2, column=0, stick=string_stickSlider)
         self.label_VelMaxValue = CTkLabel(self, text=f'{vel_max/2}', font = font_Value)
         self.label_VelMaxValue.grid(row=3, column=0, padx=int_padX, pady=int_padY)

@@ -8,6 +8,7 @@ from Teclado import Teclado
 from cenas import Cenas
 from camera import Camera
 from velocidades import Velocidades
+from camera_preview import CameraPreview
 
 
 class Control(ctk.CTk):
@@ -17,12 +18,12 @@ class Control(ctk.CTk):
         self.cam = None
 
         self.title("PTZ Camera Control")
-        self.geometry(f"{600}x{700}")
+        self.geometry(f"{1000}x{700}")
         self.minsize(600, 700)
-        self.maxsize(800, 800)
+        self.maxsize(1200, 800)
         
         self.grid_columnconfigure(0, minsize = 300)
-        self.grid_columnconfigure((0, 1), weight = 50)
+        self.grid_columnconfigure((0, 1, 2), weight = 50)
         self.grid_rowconfigure(0, weight = 1)
         self.grid_rowconfigure(1, weight = 10)
         self.grid_rowconfigure((0,1), minsize = 50)
@@ -43,6 +44,9 @@ class Control(ctk.CTk):
         self.button_SearchCamera = CTkButton(self.frame_SearchCamera, text='Search Cam', command=self.search_cam)
         self.button_SearchCamera.grid(row = 0, column = 2, padx = 20, pady= 10, stick='we')
 
+        # Frame de preview de câmera --------------------------------------------------------------
+        self.frame_PreviewCamera = CameraPreview(self)
+        self.frame_PreviewCamera.grid(row = 1, column = 2, columnspan=3, stick='nswe', padx=5, pady = 5)
 
         # Frame de controle manual --------------------------------------------------------------
         self.frame_ManualControl = CTkFrame(self)
@@ -208,22 +212,21 @@ class Control(ctk.CTk):
     def on_closing(self):
         if self.cam:
             self.cam.stop()
+            self.frame_PreviewCamera.disconnect_camera()
         self.bool_open = False
 
     def mainloop(self):
-        while control.bool_open:
-            if control.cam:
-                control.cam.update()
-            control.update()
+        while self.bool_open:
+            if self.cam:
+                self.cam.update()
+            self.frame_PreviewCamera.update_image()
+            self.update()
 
 
 if __name__ == '__main__':
     control = Control()
     
     control.mainloop()
-    # print(control.frame_Cenas.listFunction_funcoesCenas[0](0))
-    # print(control.frame_Cenas.listFunction_funcoesCenas[0](1))
-    # print(control.frame_Cenas.listFunction_funcoesCenas[0](2))
     exit(0)
     
         
